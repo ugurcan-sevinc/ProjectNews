@@ -30,7 +30,7 @@ class NewsAdapter(private val articlesList: ArrayList<NewsArticle>, private val 
             itemView.publishedAtLabel.text = article.publishedAt
             itemView.descriptionLabel.text = article.description
 
-            Glide.with(itemView.context).load(article.urlToImage).placeholder(R.color.white).dontAnimate().into(itemView.header_image)
+            Glide.with(itemView.context).load(article.urlToImage).placeholder(R.color.backgroundColorDark).dontAnimate().into(itemView.header_image)
         }
 
     }

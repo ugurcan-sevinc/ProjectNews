@@ -8,8 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="imageText">#FF00DDFF</color>
-
     <color name="backgroundColorLight">#FFFFFFFF</color>
     <color name="componentBackgroundColorLight">#FFFFFFFF</color>
     <color name="textColorLight">#FF212121</color>
