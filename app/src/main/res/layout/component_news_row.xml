@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/component_news_background"
+    android:layout_margin="10dp"
+    android:clipToOutline="true"
+    android:elevation="10dp">
+
+    <ImageView
+        android:id="@+id/header_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="200dp"
+        android:src="@color/white"
+        android:scaleType="fitXY"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/sourceNameLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="5dp"
+        android:layout_marginHorizontal="10dp"
+        android:text="Source Name"
+        android:textColor="@color/imageText"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/header_image"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/publishedAtLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="00/00/0000 - 00.00"
+        android:textColor="?textColor"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleLabel" />
+
+    <TextView
+        android:id="@+id/titleLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Title"
+        android:layout_margin="10dp"
+        android:textSize="18sp"
+        android:textColor="?textColor"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header_image" />
+
+    <TextView
+        android:id="@+id/descriptionLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:justificationMode="inter_word"
+        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin leo purus, sit amet maximus sem posuere ut. Nullam et accumsan ipsum, dictum vestibulum ipsum."
+        android:textColor="?textColor"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/publishedAtLabel"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
