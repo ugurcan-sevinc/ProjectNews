@@ -10,6 +10,6 @@ Learned and used:
  * Retrofit
  * Glide (for loading images from URL's)
 
-## DEMO
+### DEMO
 
 ![demoNewsApp](https://user-images.githubusercontent.com/69902076/215784493-19e10026-081c-46b8-9f44-20981db8b460.gif)
