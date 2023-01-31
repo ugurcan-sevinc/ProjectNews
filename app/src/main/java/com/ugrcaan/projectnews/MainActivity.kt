@@ -5,6 +5,9 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ugrcaan.projectnews.adapters.NewsAdapter
@@ -12,6 +15,7 @@ import com.ugrcaan.projectnews.databinding.ActivityMainBinding
 import com.ugrcaan.projectnews.model.NewsArticle
 import com.ugrcaan.projectnews.model.NewsModel
 import com.ugrcaan.projectnews.service.NewsAPI
+import com.ugrcaan.projectnews.viewmodel.MainVM
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -24,10 +28,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 class MainActivity : AppCompatActivity(), NewsAdapter.Listener {
 
     private lateinit var binding : ActivityMainBinding
-    //private lateinit var viewModel: MainVM
-    private val BASE_URL = "https://newsapi.org/v2/"
-    private var compositeDisposable : CompositeDisposable? = null
-    //private var newsModels : ArrayList<NewsModel>? = null
     private var newsAdapter : NewsAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,34 +36,15 @@ class MainActivity : AppCompatActivity(), NewsAdapter.Listener {
         val view = binding.root
         setContentView(view)
 
+        val viewModel = ViewModelProvider(this)[MainVM::class.java]
+
         val layoutManager : RecyclerView.LayoutManager = LinearLayoutManager(this)
         newsRecyclerView.layoutManager = layoutManager
 
-        loadData()
-    }
+        viewModel.newsData().observe(this, Observer {
+            handleResponse(it)
+        })
 
-
-
-    private fun loadData() {
-
-        compositeDisposable = CompositeDisposable()
-
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .build().create(NewsAPI::class.java)
-
-
-        compositeDisposable?.add(retrofit.getData()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ newsModel ->
-                handleResponse(newsModel)
-            }, { error ->
-                // handle the error here
-                Log.d("MainActivity", "Error loading data: $error")
-            }))
 
     }
 
@@ -77,10 +58,5 @@ class MainActivity : AppCompatActivity(), NewsAdapter.Listener {
     override fun onItemClick(article: NewsArticle) {
         val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(article.url))
         startActivity(browserIntent)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        compositeDisposable?.clear()
     }
 }

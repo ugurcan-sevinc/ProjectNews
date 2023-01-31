@@ -1,6 +1,7 @@
 package com.ugrcaan.projectnews.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -20,6 +21,35 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class MainVM(application: Application) : AndroidViewModel(application) {
 
+    private val compositeDisposable = CompositeDisposable()
+    private val baseUrl = "https://newsapi.org/v2/"
+    private val _newsData = MutableLiveData<NewsModel>()
 
+    fun newsData(): LiveData<NewsModel> {
+        loadData()
+        return _newsData
+    }
 
+    private fun loadData() {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .build().create(NewsAPI::class.java)
+
+        compositeDisposable.add(retrofit.getData()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ newsModel ->
+                _newsData.value = newsModel
+            }, { error ->
+                Log.d("MainViewModel", "Error loading data: $error")
+            }))
+    }
+
+    override fun onCleared() {
+        compositeDisposable.clear()
+        super.onCleared()
+    }
 }
+
