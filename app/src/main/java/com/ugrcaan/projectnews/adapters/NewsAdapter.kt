@@ -1,16 +1,16 @@
 package com.ugrcaan.projectnews.adapters
 
+import android.icu.text.SimpleDateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.Recycler
 import com.bumptech.glide.Glide
-import com.ugrcaan.projectnews.MainActivity
 import com.ugrcaan.projectnews.R
 import com.ugrcaan.projectnews.model.NewsArticle
-import com.ugrcaan.projectnews.model.NewsModel
 import kotlinx.android.synthetic.main.component_news_row.view.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 class NewsAdapter(private val articlesList: ArrayList<NewsArticle>, private val listener: Listener) : RecyclerView.Adapter<NewsAdapter.NewsHolder>(){
 
@@ -27,10 +27,18 @@ class NewsAdapter(private val articlesList: ArrayList<NewsArticle>, private val 
 
             itemView.titleLabel.text = article.title
             itemView.sourceNameLabel.text = article.source.name
-            itemView.publishedAtLabel.text = article.publishedAt
+
+            itemView.publishedAtLabel.text = formatTime(article.publishedAt)
             itemView.descriptionLabel.text = article.description
 
             Glide.with(itemView.context).load(article.urlToImage).placeholder(R.color.backgroundColorDark).dontAnimate().into(itemView.header_image)
+        }
+
+        private fun formatTime(publishedAt: String): String {
+            val formatInput = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
+            val formatOutput = SimpleDateFormat("dd/MM/yyyy - HH.mm", Locale.getDefault())
+            val parsedInput = formatInput.parse(publishedAt)
+            return formatOutput.format(parsedInput)
         }
 
     }
@@ -47,5 +55,7 @@ class NewsAdapter(private val articlesList: ArrayList<NewsArticle>, private val 
     override fun getItemCount(): Int {
         return articlesList.count()
     }
+
+
 
 }
